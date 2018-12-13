@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Homework6</string>
+    <string name="first_name">имя</string>
+    <string name="last_name">фамилия</string>
+    <string name="age">возраст</string>
+    <string name="edit">редактирование</string>
+    <string name="view">просмотр</string>
+    <string name="edit_foto">выбор фото</string>
+</resources>
