@@ -1,16 +1,18 @@
 package android.a1ex.com.homework6;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import android.net.Uri;
+
 import java.net.URL;
-import java.text.Format;
 
 public class Student implements Parcelable {
     public String firstName;
     public String lastName;
     public int age;
-    public URL foto;
+    public Uri foto;
 
     public Student() {
     }
@@ -19,6 +21,7 @@ public class Student implements Parcelable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
+        this.foto = null;
     }
 
     public String getFirstName() {
@@ -41,11 +44,11 @@ public class Student implements Parcelable {
         return age;
     }
 
-    public URL getFoto() {
+    public Uri getFoto() {
         return foto;
     }
 
-    public void setFoto(URL foto) {
+    public void setFoto(Uri foto) {
         this.foto = foto;
     }
 
@@ -73,14 +76,14 @@ public class Student implements Parcelable {
         dest.writeString(this.firstName);
         dest.writeString(this.lastName);
         dest.writeInt(this.age);
-        dest.writeSerializable(this.foto);
+        dest.writeParcelable(this.foto, flags);
     }
 
     protected Student(Parcel in) {
         this.firstName = in.readString();
         this.lastName = in.readString();
         this.age = in.readInt();
-        this.foto = (URL) in.readSerializable();
+        this.foto = in.readParcelable(Uri.class.getClassLoader());
     }
 
     public static final Creator<Student> CREATOR = new Creator<Student>() {

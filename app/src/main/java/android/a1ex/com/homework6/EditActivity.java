@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 public class EditActivity extends AppCompatActivity {
     public TextView firstName;
     public TextView lastName;
     public TextView age;
+    public Uri uriFoto;
     public ImageView mFoto;
 
     Student mStudent;
@@ -25,6 +27,7 @@ public class EditActivity extends AppCompatActivity {
         firstName = findViewById(R.id.editFirstName);
         lastName = findViewById(R.id.editLastName);
         age = findViewById(R.id.editAge);
+        mFoto = findViewById(R.id.editFoto);
 
         Intent intent = getIntent();
         mStudent = intent.getParcelableExtra(MainActivity.EXTRA_STUDENT);
@@ -33,10 +36,14 @@ public class EditActivity extends AppCompatActivity {
         lastName.setText(mStudent.getLastName());
         age.setText(String.valueOf(mStudent.getAge()));
 
-        findViewById(R.id.edit_foto).setOnClickListener(new View.OnClickListener() {
+        if (mStudent.getFoto() != null){
+            mFoto.setImageURI(mStudent.getFoto());
+        }
+
+        findViewById(R.id.buttonEditFoto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent fileIntent = new Intent(Intent.ACTION_PICK);
                 fileIntent.setType("image/*");
                 startActivityForResult(fileIntent, 1);
             }
@@ -57,6 +64,8 @@ public class EditActivity extends AppCompatActivity {
                 }
                 mStudent.setAge(mAge);
 
+                mStudent.setFoto(uriFoto);
+
                 Intent intent = new Intent();
                 intent.putExtra(MainActivity.EXTRA_STUDENT, mStudent);
 
@@ -72,10 +81,8 @@ public class EditActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK || requestCode == 1) {
             if (data != null) {
-
-                /*Uri uri = data.getData();
-                mFoto.setImageURI(uri);*/
-
+                uriFoto = data.getData();
+                mFoto.setImageURI(uriFoto);
             }
         }
     }

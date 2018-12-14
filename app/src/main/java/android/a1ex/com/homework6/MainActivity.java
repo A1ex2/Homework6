@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         lastName = findViewById(R.id.lastName);
         age = findViewById(R.id.age);
 
-        ImageView mFoto = findViewById(R.id.foto);
+        mFoto = findViewById(R.id.mFoto);
 
         mStudent = new Student("Александр", "Ярош", 30);
         setTextView(mStudent);
@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         firstName.setText(student.getFirstName());
         lastName.setText(student.getLastName());
         age.setText(String.valueOf(student.getAge()));
+        if (student.getFoto() != null) {
+            mFoto.setImageURI(student.getFoto());
+        }
     }
 
     public void onClick(View view) {

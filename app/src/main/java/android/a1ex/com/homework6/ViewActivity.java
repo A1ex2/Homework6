@@ -20,6 +20,8 @@ public class ViewActivity extends AppCompatActivity {
         textView.setText(mStudent.toString());
 
         ImageView mFoto = findViewById(R.id.viewFoto);
-
+        if (mStudent.getFoto() != null) {
+            mFoto.setImageURI(mStudent.getFoto());
+        }
     }
 }
