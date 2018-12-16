@@ -1,7 +1,12 @@
 package android.a1ex.com.homework6;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -106,7 +111,27 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 mStudent = data.getParcelableExtra(EXTRA_STUDENT);
                 setTextView(mStudent);
+                sendMessage();
             }
         }
+    }
+
+    public void sendMessage(){
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setTicker("111")
+                .setContentTitle("студент изменен")
+                .setContentText(mStudent.toString())
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(pendingIntent)
+                .build();
+        notificationManager.notify(1, notification);
     }
 }

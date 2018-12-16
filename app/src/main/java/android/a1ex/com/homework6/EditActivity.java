@@ -37,8 +37,6 @@ public class EditActivity extends AppCompatActivity {
         mFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //editFoto(mFoto);
-
                 PopupMenu popupMenu = new PopupMenu(EditActivity.this, mFoto);
                 popupMenu.inflate(R.menu.photo_menu_context);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -132,7 +130,6 @@ public class EditActivity extends AppCompatActivity {
             mAge = 0;
         }
         mStudent.setAge(mAge);
-
         mStudent.setFoto(uriFoto);
 
         Intent intent = new Intent();
@@ -162,9 +159,7 @@ public class EditActivity extends AppCompatActivity {
                 text = "фото удалено...";
                 break;
         }
-
         Toast.makeText(EditActivity.this, text, Toast.LENGTH_LONG).show();
-
         return false;
     }
 }
