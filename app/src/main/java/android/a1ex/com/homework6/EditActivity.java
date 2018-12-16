@@ -5,9 +5,14 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class EditActivity extends AppCompatActivity {
@@ -28,6 +33,36 @@ public class EditActivity extends AppCompatActivity {
         lastName = findViewById(R.id.editLastName);
         age = findViewById(R.id.editAge);
         mFoto = findViewById(R.id.editFoto);
+        registerForContextMenu(mFoto);
+        mFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //editFoto(mFoto);
+
+                PopupMenu popupMenu = new PopupMenu(EditActivity.this, mFoto);
+                popupMenu.inflate(R.menu.photo_menu_context);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String text = "";
+                        switch (item.getItemId()) {
+                            case R.id.editFoto:
+                                editFoto(mFoto);
+                                text = "выбор фото...";
+                                break;
+                            case R.id.deleteFoto:
+                                mFoto.setImageResource(R.drawable.nophoto);
+                                text = "фото удалено...";
+                                break;
+                        }
+
+                        Toast.makeText(EditActivity.this, text, Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
 
         Intent intent = getIntent();
         mStudent = intent.getParcelableExtra(MainActivity.EXTRA_STUDENT);
@@ -36,43 +71,9 @@ public class EditActivity extends AppCompatActivity {
         lastName.setText(mStudent.getLastName());
         age.setText(String.valueOf(mStudent.getAge()));
 
-        if (mStudent.getFoto() != null){
+        if (mStudent.getFoto() != null) {
             mFoto.setImageURI(mStudent.getFoto());
         }
-
-        findViewById(R.id.buttonEditFoto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent fileIntent = new Intent(Intent.ACTION_PICK);
-                fileIntent.setType("image/*");
-                startActivityForResult(fileIntent, 1);
-            }
-        });
-
-        findViewById(R.id.buttonOk).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mStudent.setFirstName(firstName.getText().toString());
-                mStudent.setLastName(lastName.getText().toString());
-
-                int mAge;
-                try {
-                    mAge = Integer.valueOf(age.getText().toString());
-                } catch (NumberFormatException e) {
-                    mAge = 0;
-                }
-                mStudent.setAge(mAge);
-
-                mStudent.setFoto(uriFoto);
-
-                Intent intent = new Intent();
-                intent.putExtra(MainActivity.EXTRA_STUDENT, mStudent);
-
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -83,7 +84,87 @@ public class EditActivity extends AppCompatActivity {
             if (data != null) {
                 uriFoto = data.getData();
                 mFoto.setImageURI(uriFoto);
+                Toast.makeText(this, "выбрано фото...", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void editFoto(View view) {
+        Intent fileIntent = new Intent(Intent.ACTION_PICK);
+        fileIntent.setType("image/*");
+        startActivityForResult(fileIntent, 1);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.student_edit_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.itemOk:
+                saveStudent();
+                break;
+        }
+        return false;
+    }
+
+    public void saveStudent() {
+        mStudent.setFirstName(firstName.getText().
+
+                toString());
+        mStudent.setLastName(lastName.getText().
+
+                toString());
+
+        int mAge;
+        try
+
+        {
+            mAge = Integer.valueOf(age.getText().toString());
+        } catch (
+                NumberFormatException e)
+
+        {
+            mAge = 0;
+        }
+        mStudent.setAge(mAge);
+
+        mStudent.setFoto(uriFoto);
+
+        Intent intent = new Intent();
+        intent.putExtra(MainActivity.EXTRA_STUDENT, mStudent);
+
+        setResult(RESULT_OK, intent);
+
+        finish();
+        Toast.makeText(EditActivity.this, "студент изменен...", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getMenuInflater().inflate(R.menu.photo_menu_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        String text = "";
+        switch (item.getItemId()) {
+            case R.id.editFoto:
+                editFoto(mFoto);
+                text = "выбор фото...";
+                break;
+            case R.id.deleteFoto:
+                mFoto.setImageResource(R.drawable.nophoto);
+                text = "фото удалено...";
+                break;
+        }
+
+        Toast.makeText(EditActivity.this, text, Toast.LENGTH_LONG).show();
+
+        return false;
     }
 }

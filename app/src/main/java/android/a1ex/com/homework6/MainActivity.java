@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_STUDENT = "android.a1ex.com.homework6.extra.STUDENT";
@@ -19,6 +23,39 @@ public class MainActivity extends AppCompatActivity {
     public ImageView mFoto;
 
     public Student mStudent;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.itemView: {
+                Intent intent = new Intent(MainActivity.this, ViewActivity.class);
+                intent.putExtra(EXTRA_STUDENT, mStudent);
+                startActivity(intent);
+            }
+            break;
+            case R.id.itemEdit: {
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                intent.putExtra(EXTRA_STUDENT, mStudent);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+            break;
+
+            case R.id.itemAbout:
+
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
+
+                return true;
+        }
+        return  false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

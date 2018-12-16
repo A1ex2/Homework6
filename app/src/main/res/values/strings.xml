@@ -6,4 +6,7 @@
     <string name="edit">редактирование</string>
     <string name="view">просмотр</string>
     <string name="edit_foto">выбор фото</string>
+    <string name="item_about">о программе</string>
+    <string name="about_program">домашняя работа, лекция 7</string>
+    <string name="delete_foto">удалить фото</string>
 </resources>
