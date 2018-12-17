@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAutoCancel(true)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setDefaults(Notification.DEFAULT_ALL)
-                .setTicker("студент изменен")
+                .setTicker("студент изменен...")
                 .setContentTitle("студент изменен")
                 .setContentText(mStudent.toString())
                 .setWhen(System.currentTimeMillis())
