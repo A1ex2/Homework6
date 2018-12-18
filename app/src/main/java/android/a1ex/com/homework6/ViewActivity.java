@@ -14,7 +14,7 @@ public class ViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view);
 
         Intent intent = getIntent();
-        Student mStudent = intent.getParcelableExtra(MainActivity.EXTRA_STUDENT);
+        Student mStudent = intent.getParcelableExtra(ActivityArrayList.EXTRA_STUDENT);
 
         TextView textView = findViewById(R.id.fio);
         textView.setText(mStudent.toString());
