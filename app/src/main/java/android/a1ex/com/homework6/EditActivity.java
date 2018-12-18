@@ -21,6 +21,7 @@ public class EditActivity extends AppCompatActivity {
     public TextView age;
     public Uri uriFoto;
     public ImageView mFoto;
+    private int position;
 
     Student mStudent;
 
@@ -63,7 +64,8 @@ public class EditActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        mStudent = intent.getParcelableExtra(MainActivity.EXTRA_STUDENT);
+        mStudent = intent.getParcelableExtra(ActivityArrayList.EXTRA_STUDENT);
+        position = intent.getIntExtra(ActivityArrayList.EXTRA_POSITION, 0);
 
         firstName.setText(mStudent.getFirstName());
         lastName.setText(mStudent.getLastName());
@@ -119,9 +121,7 @@ public class EditActivity extends AppCompatActivity {
                 toString());
 
         int mAge;
-        try
-
-        {
+        try {
             mAge = Integer.valueOf(age.getText().toString());
         } catch (
                 NumberFormatException e)
@@ -133,12 +133,12 @@ public class EditActivity extends AppCompatActivity {
         mStudent.setFoto(uriFoto);
 
         Intent intent = new Intent();
-        intent.putExtra(MainActivity.EXTRA_STUDENT, mStudent);
+        intent.putExtra(ActivityArrayList.EXTRA_STUDENT, mStudent);
+        intent.putExtra(ActivityArrayList.EXTRA_POSITION, position);
 
         setResult(RESULT_OK, intent);
 
         finish();
-        Toast.makeText(EditActivity.this, "студент изменен...", Toast.LENGTH_LONG).show();
     }
 
     @Override
